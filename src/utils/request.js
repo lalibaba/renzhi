@@ -10,7 +10,6 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use()
 
-service.interceptors.response.use(
-)
+service.interceptors.response.use()
 
 export default service
