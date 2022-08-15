@@ -8,10 +8,25 @@
         </h3>
       </div>
 
+      <el-form-item prop="mobile">
+        <span class="svg-container el-icon-user-solid" />
+        <el-input v-model="loginForm.mobile" placeholder="请输入账号" />
+      </el-form-item>
+
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input ref="pwdinput" v-model="loginForm.password" :type="pwdType" placeholder="请输入密码" />
+        <span class="svg-container">
+          <svg-icon :icon-class=" pwdType==='password' ? 'eye' :'eye-open'" @click="pwdChange" />
+        </span>
+      </el-form-item>
+
       <el-button class="loginBtn " :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">账号: 13800000002</span>
+        <span style="margin-right:20.0025px;">账号: 13800000002</span>
         <span> 密码: 123456</span>
       </div>
 
@@ -20,20 +35,41 @@
 </template>
 
 <script>
-// import { validUsername } from '@/utils/validate'
+import { validMobile } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
+    const validatorMobile = (rule, value, callback) => {
+      if (validMobile(value)) {
+        return callback()
+      } else {
+        return callback(new Error('手机号格式错误'))
+      }
+    }
     return {
+      loginForm: {},
+      pwdType: 'password',
+      loginRules: {
+        mobile: [
+          { required: true, message: '手机号必填', trigger: 'blur' },
+          { validator: validatorMobile, trigger: 'blur' }
+          // { pattern: /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[189]))\d{8}$/, message: '手机格式错误', trigger: 'blur' }
+        ],
+        password: [{ required: true, message: '密码必填' }, { min: 6, max: 16, message: '密码6-16位', trigger: 'blur' }]
+      }
 
     }
   },
   watch: {
-
   },
   methods: {
-
+    pwdChange() {
+      this.pwdType = this.pwdType === 'password' ? 'text' : 'password'
+      this.$nextTick(() => {
+        this.$refs.pwdinput.focus()
+      })
+    }
   }
 }
 </script>
@@ -56,7 +92,7 @@ $cursor: #fff;
 .login-container {
   .el-input {
     display: inline-block;
-    height: 47px;
+    height: 47.0025px;
     width: 85%;
 
     input {
@@ -64,22 +100,22 @@ $cursor: #fff;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
-      padding: 12px 5px 12px 15px;
+      padding: 12px 5.0025px 12px 15px;
       color: $light_gray;
-      height: 47px;
+      height: 47.0025px;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
+        box-shadow: 0 0 0px 999.9975px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
   }
 
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: .9975px solid rgba(255, 255, 255, 0.1);
     background: rgba(255, 255, 255, 0.7);
-    border-radius: 5px;
+    border-radius: 5.0025px;
     color: #454545;
   }
   .el-form-item__error {
@@ -103,27 +139,27 @@ $light_gray:#68b0fe;
 
   .login-form {
     position: relative;
-    width: 520px;
+    width: 519.9975px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 159.9975px 35.0025px 0;
     margin: 0 auto;
     overflow: hidden;
   }
 
   .tips {
-    font-size: 14px;
+    font-size: 14.0025px;
     color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 9.9975px;
 
     span {
       &:first-of-type {
-        margin-right: 16px;
+        margin-right: 15.9975px;
       }
     }
   }
 
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    padding: 6px 5.0025px 6px 15px;
     color: $dark_gray;
     vertical-align: middle;
     width: 30px;
@@ -134,9 +170,9 @@ $light_gray:#68b0fe;
     position: relative;
 
     .title {
-      font-size: 26px;
+      font-size: 26.0025px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0px auto 39.9975px auto;
       text-align: center;
       font-weight: bold;
     }
@@ -144,9 +180,9 @@ $light_gray:#68b0fe;
 
   .show-pwd {
     position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
+    right: 9.9975px;
+    top: 6.9975px;
+    font-size: 15.9975px;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
@@ -154,8 +190,8 @@ $light_gray:#68b0fe;
 }
 .loginBtn {
   background: #407ffe;
-  height: 64px;
-  line-height: 32px;
+  height: 63.9975px;
+  line-height: 32.0025px;
   font-size: 24px;
 }
 </style>
