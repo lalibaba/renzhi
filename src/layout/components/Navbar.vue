@@ -12,7 +12,8 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
-            src="http://destiny001.gitee.io/image/monkey_02.jpg"
+            v-imgerror="defaultImg"
+            :src="$store.getters.staffPhoto "
             class="user-avatar"
           >
           <span>用户名</span>
@@ -40,6 +41,11 @@ export default {
   components: {
     // Breadcrumb,
     Hamburger
+  },
+  data() {
+    return {
+      defaultImg: 'http://destiny001.gitee.io/image/monkey_02.jpg'
+    }
   },
   computed: {
     ...mapGetters([

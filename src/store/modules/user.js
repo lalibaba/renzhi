@@ -19,7 +19,7 @@
 //   }
 // }
 
-import { getUserInfo, login } from '@/api'
+import { getUserInfo, login, getUserDetailById } from '@/api'
 import { setToken, getToken, removeToken } from '@/utils/auth'
 
 export default {
@@ -53,11 +53,19 @@ export default {
       console.log(res)
       commit('setToken', res)
     },
+    async logout({ commit }) {
+      commit('removeToken')
+    },
 
     // 获取用户信息
     async getUserInfo({ commit }) {
-      const res = await getUserInfo()
-      commit('setUserInfo', res)
+      const result = await getUserInfo() // result就是用户的基本资料
+      const baseInfo = await getUserDetailById(result.userId) // 为了获取头像
+      const baseResult = { ...result, ...baseInfo } // 将两个接口结果合并
+      // 此时已经获取到了用户的基本资料 迫不得已 为了头像再次调用一个接口
+      commit('setUserInfo', baseResult) // 提交mutations
+      // 加一个点睛之笔  这里这一步，暂时用不到，但是请注意，这给我们后边会留下伏笔
+      return baseResult
     }
   }
 }

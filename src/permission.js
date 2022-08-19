@@ -5,7 +5,13 @@ import store from '@/store'
 const whiteList = ['/login', '/404']
 router.beforeEach((to, from, next) => {
   // 判断是否有token
-  if (store.getters.token) {
+  const token = store.getters.token
+  if (token) {
+    // 获取用户资料
+    if (!store.state.user.userInfo.userId) {
+      store.dispatch('user/getUserInfo')
+    }
+
     // 是否要去登录页。是则跳转到主页，否则按原路由放行
     if (to.path === '/login') {
       next('/')
