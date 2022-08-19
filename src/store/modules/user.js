@@ -26,7 +26,8 @@ export default {
   namespaced: true,
   state: {
     token: getToken(),
-    userInfo: {}
+    userInfo: {},
+    hrsaasTime: ''
   },
   mutations: {
     setToken(state, token) {
@@ -42,15 +43,18 @@ export default {
     },
     removeUserInfo(state) {
       state.userInfo = {}
+    },
+    getHrsaasTime(state, time) {
+      state.hrsaasTime = time
     }
-
   },
   actions: {
     // 通过接口获取token
     // commit setToken
     async login({ commit }, data) {
       const res = await login(data)
-      console.log(res)
+      // console.log(res)
+      commit('getHrsaasTime', +new Date())
       commit('setToken', res)
     },
     async logout({ commit }) {

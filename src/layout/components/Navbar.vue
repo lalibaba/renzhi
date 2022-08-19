@@ -21,7 +21,7 @@
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item>主页</el-dropdown-item>
+            <el-dropdown-item>项目地址</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided @click.native="logout">
             <span style="display: block">退出登录</span>
