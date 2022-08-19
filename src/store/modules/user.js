@@ -19,13 +19,14 @@
 //   }
 // }
 
-import { login } from '@/api'
+import { getUserInfo, login } from '@/api'
 import { setToken, getToken, removeToken } from '@/utils/auth'
 
 export default {
   namespaced: true,
   state: {
-    token: getToken()
+    token: getToken(),
+    userInfo: {}
   },
   mutations: {
     setToken(state, token) {
@@ -35,7 +36,14 @@ export default {
     removeToken(state) {
       state.token = null
       removeToken()
+    },
+    setUserInfo(state, userInfo) {
+      state.userInfo = JSON.parse(JSON.stringify(userInfo))
+    },
+    removeUserInfo(state) {
+      state.userInfo = {}
     }
+
   },
   actions: {
     // 通过接口获取token
@@ -44,6 +52,12 @@ export default {
       const res = await login(data)
       console.log(res)
       commit('setToken', res)
+    },
+
+    // 获取用户信息
+    async getUserInfo({ commit }) {
+      const res = await getUserInfo()
+      commit('setUserInfo', res)
     }
   }
 }
