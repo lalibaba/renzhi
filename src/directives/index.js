@@ -12,3 +12,9 @@ export const imgerror = {
     }
   }
 }
+
+export const color = {
+  inserted(dom, binding, vNode) {
+    dom.style.color = binding.value
+  }
+}

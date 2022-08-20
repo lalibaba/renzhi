@@ -103,7 +103,7 @@ export default {
       try {
         this.loading = true
         await this.$refs.loginForm.validate() // 不输入值返回一个promise
-        this.$store.dispatch('user/login', this.loginForm) // 请求数据
+        await this.$store.dispatch('user/login', this.loginForm) // 请求数据
         this.$router.push('/')
       } catch (e) {
         console.dir(e)
@@ -119,9 +119,9 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg: #283443;
+$bg: #d1e1ff;
 $light_gray: #68b0fe;
-$cursor: #fff;
+$cursor: #68b0fe;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -166,7 +166,7 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg: #2d3a4b;
+$bg: #d1e1ff;
 $dark_gray: #889aa4;
 $light_gray: #68b0fe;
 
