@@ -17,4 +17,4 @@ const requireAll = requireContext => requireContext.keys().map(requireContext)
 //   return req.keys().map(item=>req())
 // }
 requireAll(req)
-console.log(requireAll(req))
+// console.log(requireAll(req))
