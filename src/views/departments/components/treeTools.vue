@@ -14,14 +14,14 @@
         <el-col>{{ treeNode.manager }}</el-col>
         <el-col>
           <!-- 下拉菜单 element -->
-          <el-dropdown>
+          <el-dropdown @command="handlecommand">
             <span> 操作<i class="el-icon-arrow-down" /> </span>
             <!-- 下拉菜单 -->
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>添加子部门</el-dropdown-item>
+              <el-dropdown-item command="add">添加子部门</el-dropdown-item>
               <!-- 编辑部门和删除部门只会在子节点上显示 -->
-              <el-dropdown-item v-if="isRoot">编辑部门</el-dropdown-item>
-              <el-dropdown-item v-if="isRoot">删除部门</el-dropdown-item>
+              <el-dropdown-item v-if="isRoot" command="edit">编辑部门</el-dropdown-item>
+              <el-dropdown-item v-if="isRoot" command="del">删除部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -49,20 +49,18 @@ export default { // 计算属性
 
     }
   }, // props传值
-  computed: {
-  }, // 组件
-  watch: {
-  }, // 监视属性
-  created() {
-  }, // 创建阶段钩子
-  mounted() {
-  }, // 挂载阶段钩子
-  updated() {
-  }, // 更新阶段钩子
-  destroyed() {
-  },
-  methods: {
 
+  methods: {
+    handlecommand(type) {
+      console.log(type)
+      if (type === 'add') {
+        this.$emit('addDept', this.treeNode)
+      } else if (type === 'edit') {
+        console.log(type)
+      } else {
+        console.log(type)
+      }
+    }
   }// 销毁阶段钩子
 }
 </script>
