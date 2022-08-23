@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { delDepartments } from '@/api'
+
 export default { // 计算属性
   components: {
   }, // 方法
@@ -56,8 +58,21 @@ export default { // 计算属性
       if (type === 'add') {
         this.$emit('addDept', this.treeNode)
       } else if (type === 'edit') {
-        console.log(type)
+        this.$emit('editDept', this.treeNode)
       } else {
+        this.$confirm('确认部门删除', '提示', { type: 'warning' }).then(
+          // async res => {
+          //   await delDepartments(this.treeNode.id)
+          //   this.$emit('refreshDepts')
+          //   this.$message.success('删除成功')
+          // }
+          res => delDepartments(this.treeNode.id)
+        ).then(
+          res => {
+            this.$emit('refreshDepts')
+            this.$message.success('删除成功')
+          }
+        )
         console.log(type)
       }
     }

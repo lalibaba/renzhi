@@ -1,5 +1,8 @@
 <template>
   <div class="departments-container">
+    <!-- 进度条 -->
+    <div v-loading="loading" class="departments-container" />
+
     <el-card class="tree-card">
       <!-- 用了一个行列布局 -->
       <treeTools :tree-node="company" :is-root="false" @addDept="addDept" />
@@ -7,9 +10,9 @@
     </el-card>
     <!--放置一个属性   这里的props和我们之前学习的父传子 的props没关系-->
     <el-tree :data="departs" :props="defaultProps" :default-expand-all="true">
-      <treeTools slot-scope="{data}" :tree-node="data" @addDept="addDept" />
+      <treeTools slot-scope="{data}" :tree-node="data" @addDept="addDept" @editDept="editDept" @refreshDepts="getDepartments" />
     </el-tree>
-    <AddDept :dialogvisible.sync="showDialog" :tree-node="currentNode" />
+    <AddDept ref="AddDept" :dialogvisible.sync="showDialog" :tree-node="currentNode" @refreshDepts="getDepartments" />
   </div>
 </template>
 
@@ -26,6 +29,7 @@ export default {
   },
   data() {
     return {
+      loading: false, // 进度条
       currentNode: {}, // 点击的当前节点
       showDialog: false, // 显示窗体
       defaultProps: {
@@ -54,12 +58,20 @@ export default {
       this.showDialog = true
       this.currentNode = node
     },
+    // 编辑子部门
+    editDept(node) {
+      this.showDialog = true
+      this.currentNode = node
+      this.$refs.AddDept.formData = { ...node }
+    },
     // 获取组织架构数据
     async getDepartments() {
+      this.loading = true
       const { depts, companyName, companyManage } = await getDepartments()
       this.departs = tranListToTreeData(depts, '')
       console.log(this.departs)
       this.company = { name: companyName, manager: companyManage, id: '' }
+      this.loading = false
     }
 
   }
