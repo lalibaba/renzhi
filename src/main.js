@@ -18,7 +18,7 @@ import * as directives from '@/directives'
 import components from '@/components'
 import * as filters from '@/filters'
 Object.keys(filters).forEach(key => { Vue.filter(key, filters[key]) }) // 批量注册过滤器
-console.log(components)
+// console.log(components)
 
 Vue.use(components)
 /**
