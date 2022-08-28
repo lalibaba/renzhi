@@ -20,7 +20,7 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
+          <router-link to="http://liufusong.top/project/#%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%BA%90">
             <el-dropdown-item>项目地址</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided @click.native="logout">
@@ -36,6 +36,7 @@
 import { mapGetters } from 'vuex'
 // import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import defaultImg from '@/assets/common/head.jpg'
 
 export default {
   components: {
@@ -44,7 +45,7 @@ export default {
   },
   data() {
     return {
-      defaultImg: 'http://destiny001.gitee.io/image/monkey_02.jpg'
+      defaultImg
     }
   },
   computed: {
