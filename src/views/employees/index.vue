@@ -10,6 +10,7 @@
         <el-button size="small" type="primary" @click="add">新增员工</el-button>
       </template>
     </PageTools>
+
     <!-- 放置表格和分页 -->
     <el-card>
       <el-table v-loading="loading" border :data="list">
@@ -17,7 +18,8 @@
         <el-table-column label="姓名" sortable="" prop="username" />
         <el-table-column label="头像">
           <template slot-scope="{row}">
-            <img v-imgerror="require('@/assets/common/bigUserHeader.png')" style="border-radius: 20%; width: 100px; height: 100px; margin: 10px;" :src="row.staffPhoto" alt="" @click="showQrCode(row.staffPhoto)">
+            <img v-imgerror="require('@/assets/common/bigUserHeader.png')" style="border-radius: 20%; width: 100px; height: 100px; margin: 10px;" :src="row.staffPhoto" alt="头像" @click="showQrCode(row.staffPhoto)">
+            <!-- 头像弹窗 -->
           </template>
         </el-table-column>
         <el-table-column label="工号" sortable="" prop="workNumber" />
@@ -70,9 +72,14 @@
     <!-- :show-dialog.sync="showDialog"相当于 :show-dialog="showDialog" 加 @update:showDialog="showDialog=$event"  -->
 
     <!-- 二维码 -->
-    <el-dialog title="二维码" :visible.sync="showCodeDialog">
-      <el-row type="flex" justify="center">
-        <canvas ref="myCanvas" />
+    <el-dialog width="30%" title="二维码" :visible.sync="showCodeDialog">
+      <el-row type="flex" justify="space-between">
+        <el-col>
+          <canvas ref="myCanvas" />
+        </el-col>
+        <el-col>
+          <img v-imgerror="require('@/assets/common/bigUserHeader.png')" style="width:180px" :src="imgUrl" alt="">
+        </el-col>
       </el-row>
     </el-dialog>
   </div>
@@ -96,7 +103,9 @@ export default {
       list: [],
       total: 0,
       showDialog: false,
-      showCodeDialog: false
+      showCodeDialog: false,
+      previewShow: false,
+      imgUrl: ''
     }
   },
 
@@ -109,6 +118,7 @@ export default {
     // 展示二维码弹窗
     showQrCode(url) {
       // url存在的情况下 才弹出层
+      this.imgUrl = url
       if (url) {
         this.showCodeDialog = true // 数据更新了 但是我的弹层会立刻出现吗 ？页面的渲染是异步的！！！！
         // 有一个方法可以在上一次数据更新完毕，页面渲染完毕之后
