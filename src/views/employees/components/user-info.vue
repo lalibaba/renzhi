@@ -58,7 +58,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
-
+            <ImageUpload ref="employeesHeader" @onSuccess="onSuccess" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -90,6 +90,7 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <ImageUpload ref="employeesHeader2" @onSuccess="onSuccess2" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -360,14 +361,24 @@ export default { // 计算属性
     }
   }, // 方法
   created() {
-    this.getUserDetailById()
+    // this.getUserDetailById()
     this.getPersonalDetail()
   }, // props传值
 
   methods: {
+    onSuccess({ url }) {
+      this.userInfo.staffPhoto = url
+    },
+    onSuccess2({ url }) {
+      this.formData.staffPhoto = url
+    },
+
     // 获得用户个人详情
     async saveUser() {
     //  调用父组件
+      if (this.$refs.employeesHeader.loading) {
+        return this.$message.error('图片正在上传中')
+      }
       await saveUserDetailById(this.userInfo)
       this.$message.success('保存成功')
     },
@@ -377,12 +388,20 @@ export default { // 计算属性
       this.userInfo = await getUserDetailById(this.userId)
     },
 
+    setImage(staffPhoto) {
+      this.$refs.employeesHeader.fileList = [{ url: staffPhoto }]
+    },
+
     // 获得用户信息
     async getPersonalDetail() {
       this.formData = await getPersonalDetail(this.userId) // 获取员工数据
+      this.$refs.employeesHeader2.fileList = [{ url: this.formData.staffPhoto }]
     },
     // 更新用户信息
     async savePersonal() {
+      if (this.$refs.employeesHeader2.loading) {
+        return this.$message.error('图片上传中...')
+      }
       await updatePersonal(this.formData)
       this.$message.success('保存成功')
     }

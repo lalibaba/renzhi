@@ -1,6 +1,8 @@
 <template>
   <div class="app-container">
     <el-card>
+
+      <!-- 信息 -->
       <el-tabs>
         <el-tab-pane label="登录账户设置">
           <!-- 放置表单 -->
@@ -17,16 +19,34 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="个人详情">
+          <!-- 打印机 -->
+          <el-row type="flex" justify="end">
+            <el-tooltip content="打印个人基本信息">
+              <router-link :to="`/employees/print/${userId}?type=personal`">
+                <i class="el-icon-printer" />
+              </router-link>
+            </el-tooltip>
+          </el-row>
           <!-- 放置个人详情 -->
           <!-- <component :is="userComponent" /> -->
-          <userComponent />
+          <userComponent ref="userInfoRef" />
         </el-tab-pane>
         <el-tab-pane label="岗位详情">
+          <!-- 打印机 -->
+          <el-row type="flex" justify="end">
+            <el-tooltip content="打印岗位信息">
+              <router-link :to="`/employees/print/${userId}?type=job`">
+                <i class="el-icon-printer" />
+              </router-link>
+            </el-tooltip>
+          </el-row>
           <!-- 放置岗位详情 -->
           <!-- <component :is="JobInfo" /> -->
           <JobInfo />
         </el-tab-pane>
+
       </el-tabs>
+
     </el-card>
   </div>
 </template>
@@ -69,6 +89,8 @@ export default {
     // 获得用户信息
     async getUserDetailById() {
       this.userInfo = await getUserDetailById(this.userId)
+      this.$refs.userInfoRef.userInfo = { ...this.userInfo }
+      this.$refs.userInfoRef.setImage(this.userInfo.staffPhoto)
     },
     // 更新密码
     async saveUserDetailById() {

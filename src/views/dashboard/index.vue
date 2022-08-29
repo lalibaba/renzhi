@@ -3,6 +3,7 @@
     <div v-color="'blue'" class="dashboard-text">name: {{ this.$store.getters.username }}
 
     </div>
+    <ImageUpload @onSuccess="onSuccess" />
   </div>
 </template>
 
@@ -33,7 +34,9 @@ export default {
     // this.beforeUpload()
   },
   methods: {
-
+    onSuccess(val) {
+      console.log(val)
+    }
     // this.$store.dispatch('user/getUserInfo')
 
   }
