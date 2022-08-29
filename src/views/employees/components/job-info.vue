@@ -209,12 +209,7 @@ export default { // 计算属性
     this.getJobDetail()
     this.getEmployeeSimple()
   }, // 创建阶段钩子
-  mounted() {
-  }, // 挂载阶段钩子
-  updated() {
-  }, // 更新阶段钩子
-  destroyed() {
-  },
+
   methods: {
     async getJobDetail() {
       this.formData = await getJobDetail(this.userId)
