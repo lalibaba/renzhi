@@ -18,7 +18,7 @@
         <el-table-column label="姓名" sortable="" prop="username" />
         <el-table-column label="头像">
           <template slot-scope="{row}">
-            <img v-imgerror="require('@/assets/common/bigUserHeader.png')" style="border-radius: 20%; width: 100px; height: 100px; margin: 10px;" :src="row.staffPhoto" alt="头像" @click="showQrCode(row.staffPhoto)">
+            <img v-imgerror="require('@/assets/common/bigUserHeader.png')" style="border-radius:50%; width: 80px; height: 80px" :src="row.staffPhoto" alt="头像" @click="showQrCode(row.staffPhoto)">
             <!-- 头像弹窗 -->
           </template>
         </el-table-column>
@@ -46,7 +46,7 @@
             <el-button type="text" size="small">转正</el-button>
             <el-button type="text" size="small">调岗</el-button>
             <el-button type="text" size="small">离职</el-button>
-            <el-button type="text" size="small">角色</el-button>
+            <el-button type="text" size="small" @click="asRole(row.id)">角色</el-button>
             <el-button type="text" size="small" @click="delEmployee(row.id)">删除</el-button>
           </template>
         </el-table-column>
@@ -72,16 +72,24 @@
     <!-- :show-dialog.sync="showDialog"相当于 :show-dialog="showDialog" 加 @update:showDialog="showDialog=$event"  -->
 
     <!-- 二维码 -->
-    <el-dialog width="30%" title="二维码" :visible.sync="showCodeDialog">
+    <el-dialog width="50%" title="二维码" :visible.sync="showCodeDialog">
       <el-row type="flex" justify="space-between">
         <el-col>
           <canvas ref="myCanvas" />
         </el-col>
         <el-col>
-          <img v-imgerror="require('@/assets/common/bigUserHeader.png')" style="width:180px" :src="imgUrl" alt="">
+          <img v-imgerror="require('@/assets/common/bigUserHeader.png')" style="width:200px" :src="imgUrl" alt="">
         </el-col>
       </el-row>
     </el-dialog>
+    <!-- 角色弹窗 -->
+    <assignRole ref="assignRole" v-model="roleVisible" :userid="currentUserId" />
+    <!-- v-model 用在组件上 -->
+    <!-- <BaseInput v-model="test"></BaseInput> -->
+    <!-- v-model 用在一个组件上 会默认被解析成 名为 value 的属性  名为 input 的事件 -->
+    <!-- <BaseInput v-bind:value="test" @input="test=$event"></BaseInput> -->
+    <!-- v-model 也可以通过 model:{prop: 'checked', event: 'change'} 字段来修改属性和事件 -->
+
   </div>
 </template>
 
@@ -89,15 +97,17 @@
 import { getEmployeeList, delEmployee } from '@/api'
 import EmployeeEunm from '@/api/constant/employees'
 import addEmployee from './components/add-employee.vue'
+import assignRole from './components/assignRole.vue'
 import { formatDate } from '@/filters'
 import QrCode from 'qrcode'
 export default {
   name: 'Hrsaas1Index',
   components: {
-    addEmployee
+    addEmployee, assignRole
   },
   data() {
     return {
+      roleVisible: false,
       loading: false,
       page: { page: 1, size: 10 },
       list: [],
@@ -105,7 +115,8 @@ export default {
       showDialog: false,
       showCodeDialog: false,
       previewShow: false,
-      imgUrl: ''
+      imgUrl: '',
+      currentUserId: ''
     }
   },
 
@@ -114,7 +125,12 @@ export default {
   },
 
   methods: {
-
+    // 修改角色
+    async asRole(id) {
+      this.currentUserId = id
+      await this.$refs.assignRole.getRoleList()
+      this.roleVisible = true
+    },
     // 展示二维码弹窗
     showQrCode(url) {
       // url存在的情况下 才弹出层
