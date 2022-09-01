@@ -21,6 +21,7 @@
 
 import { getUserInfo, login, getUserDetailById } from '@/api'
 import { setToken, getToken, removeToken } from '@/utils/auth'
+import { resetRouter } from '@/router'
 
 export default {
   namespaced: true,
@@ -59,6 +60,8 @@ export default {
     },
     async logout({ commit }) {
       commit('removeToken')
+      resetRouter()
+      commit('permission/setRoutes', [], { root: true }) // 加root在user模块里调用permisson模块的mutation方法
     },
 
     // 获取用户信息

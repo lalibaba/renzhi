@@ -3,14 +3,18 @@ import store from '@/store'
 
 // 白名单
 const whiteList = ['/login', '/404']
+// eslint-disable-next-line space-before-function-paren
 router.beforeEach(async (to, from, next) => {
   // 判断是否有token
   const token = store.getters.token
   if (token) {
     // 获取用户资料
     if (!store.getters.userId) {
-      await store.dispatch('user/getUserInfo')
-      store.dispatch('permission/filterRoutes', ['settings'])
+      // eslint-disable-next-line object-curly-spacing
+      const { roles: { menus } } = await store.dispatch('user/getUserInfo') // menus
+
+      store.dispatch('permission/filterRoutes', menus)
+      next(to.path)
     }
 
     // 是否要去登录页。是则跳转到主页，否则按原路由放行

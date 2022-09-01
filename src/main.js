@@ -10,10 +10,10 @@ import '@/styles/index.scss' // global css
 
 import App from './App'
 import store from './store'
+import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-import router from './router'
 import * as directives from '@/directives'
 import components from '@/components'
 import * as filters from '@/filters'

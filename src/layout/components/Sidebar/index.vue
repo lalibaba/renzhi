@@ -31,7 +31,9 @@ export default {
       'sidebar'
     ]),
     routes() {
-      return this.$router.options.routes
+      // return this.$router.options.routes
+      console.log(11, this.$router)
+      return this.$store.state.permission.routes // 响应式的
     },
     activeMenu() {
       const route = this.$route

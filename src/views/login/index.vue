@@ -104,7 +104,7 @@ export default {
         this.loading = true
         await this.$refs.loginForm.validate() // 不输入值返回一个promise
         await this.$store.dispatch('user/login', this.loginForm) // 请求数据
-        this.$router.push('/')
+        this.$router.push('/dashboard')
       } catch (e) {
         console.dir(e)
       } finally {
