@@ -5,7 +5,7 @@
         <span>共{{ total }}条记录</span>
       </template>
       <template v-slot:after>
-        <el-button size="small" type="warning" @click="$router.push('/import?type=user')">导入 </el-button>
+        <el-button :disabled="!checkPermission('EMPLOYEES_EXPORT_ENTRY')" size="small" type="warning" @click="$router.push('/import?type=user')">导入 </el-button>
         <el-button size="small" type="danger" @click="exportData">导出</el-button>
         <el-button size="small" type="primary" @click="add">新增员工</el-button>
       </template>
@@ -178,7 +178,7 @@ export default {
       }
       const newRows = this.fromJson(headers, rows)
       // 引入下载excel文件插件
-      console.log(newRows)
+      // console.log(newRows)
       import('@/vendor/Export2Excel').then(excel => {
         excel.export_json_to_excel({
           header: Object.keys(headers), // 表头 必填  ['姓名', '手机号', '入职日期', '聘用形式']

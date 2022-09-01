@@ -18,6 +18,9 @@ import * as directives from '@/directives'
 import components from '@/components'
 import * as filters from '@/filters'
 import Print from 'vue-print-nb'
+import myMixin from '@/mixin/checkPremission'
+Vue.mixin(myMixin)
+
 Vue.use(Print)
 Object.keys(filters).forEach(key => { Vue.filter(key, filters[key]) }) // 批量注册过滤器
 

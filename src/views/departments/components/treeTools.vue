@@ -54,7 +54,7 @@ export default { // 计算属性
 
   methods: {
     handlecommand(type) {
-      console.log(type)
+      // console.log(type)
       if (type === 'add') {
         this.$emit('addDept', this.treeNode)
       } else if (type === 'edit') {
