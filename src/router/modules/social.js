@@ -3,6 +3,7 @@ import Layout from '@/layout'
 export default {
   path: '/social',
   // name: 'social',
+  meta: { id: 'social_securitys' },
   component: Layout,
   children: [{
     path: '',

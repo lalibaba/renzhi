@@ -63,6 +63,7 @@ export default {
     // 关闭弹窗
     handleClose() {
       this.$emit('input', false)
+      this.roleIds = []
     },
     // 获取所有角色
     async getRoleList() {

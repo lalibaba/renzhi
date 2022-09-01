@@ -20,7 +20,7 @@
             <el-table-column align="center" prop="description" label="描述" />
             <el-table-column align="center" label="操作">
               <template slot-scope="scope">
-                <el-button size="small" type="success">分配权限</el-button>
+                <el-button size="small" type="success" @click="givePre(scope.row.id)">分配权限</el-button>
                 <el-button size="small" type="primary" @click="edit(scope.row)">编辑</el-button>
                 <el-button size="small" type="danger" @click="del(scope.row.id)">删除</el-button>
               </template>
@@ -76,6 +76,8 @@
       </el-tabs>
     </el-card>
     <roleDialog ref="roleDialog" :dialog-visible.sync="dialogVisible" />
+    <!-- 分配权限弹窗 -->
+    <HrsaasManagerPermission ref="hrsaasManagerPermission" :user-id="userId" :give-pre-visible.sync="givePreVisible" />
   </div>
 </template>
 
@@ -83,13 +85,15 @@
 import { getRoleList, deleteRole, getCompanyInfo } from '@/api'
 import { mapGetters } from 'vuex'
 import roleDialog from './components/roleDialog.vue'
+import HrsaasManagerPermission from './components/HrsaasManagerPermission.vue'
 export default {
   name: 'Hrsaas1Index',
   components: {
-    roleDialog
+    roleDialog, HrsaasManagerPermission
   },
   data() {
     return {
+      givePreVisible: false,
       dialogVisible: false,
       activeName: 'second',
       list: [], // 承接数组
@@ -100,7 +104,8 @@ export default {
       },
       loading: false,
       total: 0, // 记录总数
-      formData: {}
+      formData: {},
+      userId: null
     }
   },
   computed: {
@@ -111,6 +116,12 @@ export default {
     this.getCompanyInfo()// 获取公司信息
   },
   methods: {
+    // 分配权限
+    givePre(id) {
+      this.$refs.hrsaasManagerPermission.getPermissionList()
+      this.givePreVisible = true
+      this.userId = id
+    },
     // 显示新增弹窗
     handleAdd() {
       this.dialogVisible = true

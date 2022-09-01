@@ -3,6 +3,7 @@ import Layout from '@/layout'
 export default {
   path: '/employees',
   // name: 'employees',
+  meta: { id: 'employees' },
   component: Layout,
   children: [{
     path: '',

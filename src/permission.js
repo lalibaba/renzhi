@@ -3,13 +3,14 @@ import store from '@/store'
 
 // 白名单
 const whiteList = ['/login', '/404']
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // 判断是否有token
   const token = store.getters.token
   if (token) {
     // 获取用户资料
-    if (!store.state.user.userInfo.userId) {
-      store.dispatch('user/getUserInfo')
+    if (!store.getters.userId) {
+      await store.dispatch('user/getUserInfo')
+      store.dispatch('permission/filterRoutes', ['settings'])
     }
 
     // 是否要去登录页。是则跳转到主页，否则按原路由放行

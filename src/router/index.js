@@ -9,7 +9,7 @@ import salarys from './modules/salarys'
 import setting from './modules/setting'
 import social from './modules/social'
 
-const asyncRouter = [approvals, attendances, departments, employees, permission, salarys, setting, social]
+export const asyncRoutes = [approvals, attendances, departments, employees, permission, salarys, setting, social]
 Vue.use(Router)
 
 import Layout from '@/layout'
@@ -47,8 +47,6 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
-
-  ...asyncRouter,
 
   { path: '*', redirect: '/404', hidden: true }
 
