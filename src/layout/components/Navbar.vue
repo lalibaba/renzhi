@@ -9,6 +9,8 @@
     <!-- <breadcrumb class="breadcrumb-container" /> -->
 
     <div class="right-menu">
+      <Lang />
+      <ScreenFull />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
@@ -110,6 +112,9 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
+    display: flex;
+    justify-content: space-between;
+    width: 25%;
 
     &:focus {
       outline: none;

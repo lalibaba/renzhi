@@ -19,7 +19,14 @@ import components from '@/components'
 import * as filters from '@/filters'
 import Print from 'vue-print-nb'
 import myMixin from '@/mixin/checkPremission'
+import i18n from '@/lang'
+
 Vue.mixin(myMixin)
+
+// 设置element为当前的语言
+Vue.use(ElementUI, {
+  i18n: (key, value) => i18n.t(key, value)
+})
 
 Vue.use(Print)
 Object.keys(filters).forEach(key => { Vue.filter(key, filters[key]) }) // 批量注册过滤器
@@ -55,5 +62,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App)
 })

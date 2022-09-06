@@ -42,7 +42,7 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: 'dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
@@ -54,7 +54,13 @@ export const constantRoutes = [
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: (to, from, savedPosition) => {
+    // console.log(88, savedPosition)
+    if (to.path === '/attendances') {
+      return { y: 0 }
+    }
+    return { y: 0 }
+  },
   routes: constantRoutes
 })
 
