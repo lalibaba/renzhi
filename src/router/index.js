@@ -53,7 +53,8 @@ export const constantRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
+  base: '/hr',
   scrollBehavior: (to, from, savedPosition) => {
     // console.log(88, savedPosition)
     if (to.path === '/attendances') {

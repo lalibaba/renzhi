@@ -5,7 +5,6 @@
         <!-- 前半部分 -->
         <div v-if="isShow" :class="`before ${type}`">
           <i :class="`el-icon-${type}`"><slot name="before" /></i>
-
         </div>
       </el-col>
       <el-col>
